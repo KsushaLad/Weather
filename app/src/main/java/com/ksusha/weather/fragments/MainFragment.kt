@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.FragmentActivity
+import com.google.android.material.tabs.TabLayoutMediator
+import com.ksusha.weather.adapters.ViewPagerAdapter
 import com.ksusha.weather.databinding.FragmentMainBinding
 import com.ksusha.weather.extencions.isPermissionGranted
 
@@ -16,6 +19,8 @@ class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
     private lateinit var pLauncher: ActivityResultLauncher<String>
+    private val fragmentList = listOf(HoursFragment.newInstance(), DaysFragment.newInstance())
+    private val titleList = listOf("HOURS", "DAYS")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +32,16 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       checkPermission()
+        checkPermission()
+        init()
+    }
+
+    private fun init() = with(binding){
+        val adapter = ViewPagerAdapter(activity as FragmentActivity, fragmentList)
+        vp.adapter = adapter
+        TabLayoutMediator(tabLayout, vp){
+            tab, position -> tab.text = titleList[position]
+        }.attach()
     }
 
     private fun permissionListener(){

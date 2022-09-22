@@ -5,7 +5,10 @@
       <map>
         <entry key="..\:/Weather/app/src/main/res/drawable/ic_sunny.xml" value="0.1545" />
         <entry key="..\:/Weather/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Weather/app/src/main/res/layout/fragment_days.xml" value="0.25416666666666665" />
+        <entry key="..\:/Weather/app/src/main/res/layout/fragment_hours.xml" value="0.25416666666666665" />
         <entry key="..\:/Weather/app/src/main/res/layout/fragment_main.xml" value="0.264" />
+        <entry key="..\:/Weather/app/src/main/res/layout/list_item.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
