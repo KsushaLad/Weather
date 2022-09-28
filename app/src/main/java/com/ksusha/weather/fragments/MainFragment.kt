@@ -18,7 +18,7 @@ import com.ksusha.weather.adapters.ViewPagerAdapter
 import com.ksusha.weather.databinding.FragmentMainBinding
 import com.ksusha.weather.extencions.isPermissionGranted
 import com.ksusha.weather.model.WeatherModel
-import com.ksusha.weather.utils.API_KEY
+import com.ksusha.weather.utils.*
 import com.ksusha.weather.viewmodel.MainViewModel
 import com.squareup.picasso.Picasso
 import org.json.JSONObject
@@ -28,7 +28,7 @@ class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
     private lateinit var pLauncher: ActivityResultLauncher<String>
     private val fragmentList = listOf(HoursFragment.newInstance(), DaysFragment.newInstance())
-    private val titleList = listOf("HOURS", "DAYS")
+    private val titleList = listOf(HOURS, DAYS)
     private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -43,8 +43,8 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         checkPermission()
         init()
-        updateCurrentCard()
         requestWeatherData("Kiev")
+        updateCurrentCard()
     }
 
     private fun init() = with(binding){
@@ -100,19 +100,19 @@ class MainFragment : Fragment() {
 
     private fun parseDaysList(mainObject: JSONObject): List<WeatherModel>{
         val list = ArrayList<WeatherModel>()
-        val daysArray = mainObject.getJSONObject("forecast").getJSONArray("forecastday")
-        val name = mainObject.getJSONObject("location").getString("name")
+        val daysArray = mainObject.getJSONObject(FORECAST).getJSONArray(FORECASTDAY)
+        val name = mainObject.getJSONObject(LOCATION).getString(NAME)
         for (position in 0 until daysArray.length()){
             val day = daysArray[position] as JSONObject
             val item = WeatherModel(
-                name,                                                                                            //city
-                day.getString("date"),                                                                     //time
-                day.getJSONObject("day").getJSONObject("condition").getString("text"),         //condition
-                "",                                                                                   //currentTemp
-                day.getJSONObject("day").getString("maxtemp_c"),                                     //maxTemp
-                day.getJSONObject("day").getString("mintemp_c"),                                     //minTemp
-                day.getJSONObject("day").getJSONObject("condition").getString("icon"),         //imageUrl
-                day.getJSONArray("hour").toString()                                                       //hours
+                name,                                                                     //city
+                day.getString(DATE),                                                      //time
+                day.getJSONObject(DAY).getJSONObject(CONDITION).getString(TEXT),          //condition
+                "",                                                             //currentTemp
+                day.getJSONObject(DAY).getString(MAXTEMP_C),                              //maxTemp
+                day.getJSONObject(DAY).getString(MINTEMP_C),                              //minTemp
+                day.getJSONObject(DAY).getJSONObject(CONDITION).getString(ICON),          //imageUrl
+                day.getJSONArray(HOUR).toString()                                         //hours
             )
             list.add(item)
         }
@@ -121,14 +121,14 @@ class MainFragment : Fragment() {
 
     private fun parseCurrentData(mainObject: JSONObject, weatherItem: WeatherModel){
         val item = WeatherModel(
-            mainObject.getJSONObject("location").getString("name"),                                   //city
-            mainObject.getJSONObject("current").getString("last_updated"),                            //time
-            mainObject.getJSONObject("current").getJSONObject("condition").getString("text"),   //condition
-            mainObject.getJSONObject("current").getString("temp_c"),                                  //currentTemp
-            weatherItem.maxTemp,                                                                                  //maxTemp
-            weatherItem.minTemp,                                                                                  //minTemp
-            mainObject.getJSONObject("current").getJSONObject("condition").getString("icon"),   //imageUrl
-            weatherItem.hours                                                                                     //hours
+            mainObject.getJSONObject(LOCATION).getString(NAME),                                   //city
+            mainObject.getJSONObject(CURRENT).getString(LAST_UPDATED),                            //time
+            mainObject.getJSONObject(CURRENT).getJSONObject(CONDITION).getString(TEXT),           //condition
+            mainObject.getJSONObject(CURRENT).getString(TEMP_C),                                  //currentTemp
+            weatherItem.maxTemp,                                                                  //maxTemp
+            weatherItem.minTemp,                                                                  //minTemp
+            mainObject.getJSONObject(CURRENT).getJSONObject(CONDITION).getString(ICON),           //imageUrl
+            weatherItem.hours                                                                     //hours
         )
         mainViewModel.liveDataCurrent.value = item
     }

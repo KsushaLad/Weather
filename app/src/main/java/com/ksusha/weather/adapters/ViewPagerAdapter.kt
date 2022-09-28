@@ -14,5 +14,4 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity, private val list: Lis
         return list[position]
     }
 
-
 }

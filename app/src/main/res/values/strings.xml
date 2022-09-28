@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">Weather</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty">Пусто</string>
+    <string name="background">background</string>
+    <string name="time">19/09/2022 15:00</string>
+    <string name="icon">icon</string>
+    <string name="city">Kyiv</string>
+    <string name="temp">20°C</string>
+    <string name="condition">Sunny</string>
+    <string name="maxmin_temp">35°C/20°C</string>
+    <string name="search">search</string>
+    <string name="sync">sync</string>
+    <string name="hours">HOURS</string>
+    <string name="days">DAYS</string>
 </resources>

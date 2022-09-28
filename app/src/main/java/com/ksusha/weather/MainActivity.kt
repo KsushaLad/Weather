@@ -5,9 +5,6 @@ import android.os.Bundle
 import com.ksusha.weather.databinding.ActivityMainBinding
 import com.ksusha.weather.fragments.MainFragment
 
-//val url = "https://api.weatherapi.com/v1/current.json" +
-//        "?key=$API_KEY&q=London&aqi=no"
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
