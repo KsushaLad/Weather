@@ -11,14 +11,24 @@ import com.ksusha.weather.databinding.ListItemBinding
 import com.ksusha.weather.model.WeatherModel
 import com.squareup.picasso.Picasso
 
-class WeatherAdapter : ListAdapter<WeatherModel, WeatherAdapter.Holder>(Comparator()) {
+class WeatherAdapter(val listener: Listener?) : ListAdapter<WeatherModel, WeatherAdapter.Holder>(Comparator()) {
 
-    class Holder(view: View) : RecyclerView.ViewHolder(view){
+    class Holder(view: View, val listener: Listener?) : RecyclerView.ViewHolder(view){
         val binding = ListItemBinding.bind(view)
+        var itemMain: WeatherModel? = null
+        init {
+            itemView.setOnClickListener {
+                itemMain?.let { it1 -> listener?.onClick(it1) }
+            }
+        }
+
         fun bind(item: WeatherModel) = with(binding){
+            itemMain = item
             tvDate.text = item.time
             tvConditional.text = item.condition
-            tvTemp.text = item.currentTemp
+            tvTemp.text = item.currentTemp.ifEmpty {
+                "${item.minTemp}°C / ${item.maxTemp}°C"
+            }
             Picasso.get().load("https:" + item.imageUrl).into(im)
         }
     }
@@ -36,11 +46,15 @@ class WeatherAdapter : ListAdapter<WeatherModel, WeatherAdapter.Holder>(Comparat
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
-        return Holder(view)
+        return Holder(view, listener)
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    interface Listener{
+        fun onClick(item: WeatherModel)
     }
 
 }

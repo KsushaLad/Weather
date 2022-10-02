@@ -1,6 +1,6 @@
 package com.ksusha.weather.utils
 
-const val API_KEY = "49159399642c44dba8e141734221709"
+const val API_KEY = "b21f4e61c974429f84a152622220110"
 const val FORECAST = "forecast"
 const val FORECASTDAY = "forecastday"
 const val LOCATION = "location"
@@ -15,7 +15,7 @@ const val ICON = "icon"
 const val CURRENT = "current"
 const val LAST_UPDATED = "last_updated"
 const val TEMP_C = "temp_c"
-const val HOURS = "HOURS"
-const val DAYS = "DAYS"
+const val HOURS = "24 HOURS"
+const val DAYS = "7 DAYS"
 const val HOUR = "hour"
 const val TIME = "time"

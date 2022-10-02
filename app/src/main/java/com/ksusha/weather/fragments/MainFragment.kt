@@ -57,12 +57,12 @@ class MainFragment : Fragment() {
 
     private fun updateCurrentCard() = with(binding){
         mainViewModel.liveDataCurrent.observe(viewLifecycleOwner){
-            val maxMinTemp = "${it.maxTemp}°/${it.minTemp}°"
+            val maxMinTemp = "${it.minTemp}°C / ${it.maxTemp}°C"
             tvData.text = it.time
             tvCity.text = it.city
-            tvCurrentTemp.text = it.currentTemp
+            tvCurrentTemp.text = it.currentTemp.ifEmpty { maxMinTemp }
             tvCondition.text = it.condition
-            tvMaxMin.text = maxMinTemp
+            tvMaxMin.text = if (it.currentTemp.isEmpty()) " " else maxMinTemp
             Picasso.get().load("https:" + it.imageUrl).into(imWeather)
         }
     }
@@ -85,7 +85,7 @@ class MainFragment : Fragment() {
                 "&q=" +
                 city +
                 "&days=" +
-                "3" +
+                "8" +
                 "&aqi=no&alerts=no"
         val queue = Volley.newRequestQueue(context)
         val request = StringRequest(Request.Method.GET, url, { result -> parseWeatherData(result) }, { error -> })
@@ -109,13 +109,14 @@ class MainFragment : Fragment() {
                 day.getString(DATE),                                                      //time
                 day.getJSONObject(DAY).getJSONObject(CONDITION).getString(TEXT),          //condition
                 "",                                                             //currentTemp
-                day.getJSONObject(DAY).getString(MAXTEMP_C),                              //maxTemp
-                day.getJSONObject(DAY).getString(MINTEMP_C),                              //minTemp
+                day.getJSONObject(DAY).getString(MAXTEMP_C).toFloat().toInt().toString(), //maxTemp
+                day.getJSONObject(DAY).getString(MINTEMP_C).toFloat().toInt().toString(), //minTemp
                 day.getJSONObject(DAY).getJSONObject(CONDITION).getString(ICON),          //imageUrl
                 day.getJSONArray(HOUR).toString()                                         //hours
             )
             list.add(item)
         }
+        mainViewModel.liveDataList.value = list
         return list
     }
 
