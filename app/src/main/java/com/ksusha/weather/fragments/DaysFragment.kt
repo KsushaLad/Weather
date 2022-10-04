@@ -29,6 +29,10 @@ class DaysFragment : Fragment(), WeatherAdapter.Listener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
+        observer()
+    }
+
+    private fun observer(){
         mainViewModel.liveDataList.observe(viewLifecycleOwner){
             adapter.submitList(it.subList(1, it.size))
         }

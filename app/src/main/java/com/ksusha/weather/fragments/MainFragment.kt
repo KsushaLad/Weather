@@ -70,9 +70,24 @@ class MainFragment : Fragment() {
         TabLayoutMediator(tabLayout, vp){
             tab, position -> tab.text = titleList[position]
         }.attach()
+        initIbSync()
+        initIbSearch()
+    }
+
+    private fun initIbSync() = with(binding){
         ibSync.setOnClickListener {
             tabLayout.selectTab(tabLayout.getTabAt(0))
             checkLocation()
+        }
+    }
+
+    private fun initIbSearch() = with(binding){
+        ibSearch.setOnClickListener {
+            DialogManager.searchByName(requireContext(), object : DialogManager.Listener{
+                override fun onClick(name: String?) {
+                    name?.let { it -> requestWeatherData(it) }
+                }
+            })
         }
     }
 
@@ -103,7 +118,7 @@ class MainFragment : Fragment() {
             getLocation()
         } else {
             DialogManager.locationSettingsDialog(requireContext(), object : DialogManager.Listener{
-                override fun onClick() {
+                override fun onClick(name: String?) {
                     startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                 }
 
